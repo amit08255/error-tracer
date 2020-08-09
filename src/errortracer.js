@@ -1,11 +1,27 @@
 'use strict';
 
+import { pick } from "./utils";
+
+
+const processNavigator = (navigator) => pick([
+  "appCodeName", "appName", "buildID", "doNotTrack", "language", "oscpu",
+  "platform", "userAgent"], navigator);
+
+const processError = (error) => pick(["error", "message", "type"], error);
+
 const ErrorTracer = ((global) => {
   return class ErrorTracer {
     constructor() {
       this.root = global
 
       this.init(arguments)
+    }
+
+    getDefaultBoolean(val) {
+      if(val === null || val === undefined){
+        return true;
+      }
+      return val;
     }
 
     active() {
@@ -30,6 +46,9 @@ const ErrorTracer = ((global) => {
       this.ignores = []
       this.history = []
       this.detail = undefined
+      this.addLocalStorage = true
+      this.addSessionStorage = true
+      this.addCookie = true
     }
 
     push() {
@@ -56,6 +75,9 @@ const ErrorTracer = ((global) => {
         this.sourceRange = arg.sourceRange
         this.detail = arg.detail
         this.appName = arg.appName
+        this.addLocalStorage = this.getDefaultBoolean(arg.addLocalStorage)
+        this.addSessionStorage = this.getDefaultBoolean(arg.addSessionStorage)
+        this.addCookie = this.getDefaultBoolean(arg.addCookie)
       }
       
       else if (typeof arg === 'function') {
@@ -115,12 +137,12 @@ const ErrorTracer = ((global) => {
     let item = {
       appName: errorTracer.appName,
       location: errorTracer.root.location.href,
-      error,
+      error: processError(error),
       environment: {
-        navigator: errorTracer.root.navigator,
-        localStorage,
-        sessionStorage,
-        cookie: errorTracer.root.document.cookie,
+        navigator: processNavigator(errorTracer.root.navigator),
+        localStorage: errorTracer.addLocalStorage === true ? localStorage : null,
+        sessionStorage: errorTracer.addSessionStorage === true ? sessionStorage : null,
+        cookie: errorTracer.addCookie === true ? errorTracer.root.document.cookie : null,
       },
       timeStamp: Date.now(),
       detail: errorTracer.detail,

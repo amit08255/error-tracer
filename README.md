@@ -89,6 +89,9 @@ errorTrace1.init(function (errItem) {
 | Name        | Type          | description                                                | Example                                                   |
 |-------------|---------------|------------------------------------------------------------|-----------------------------------------------------------|
 | appName     | String        | Name of yout app           | "Test App"
+| addLocalStorage     | Boolean        | Should add localstorage data (Default: true)           | true
+| addSessionStorage     | Boolean        | Should add sessionstorage data (Default: true)           | true
+| addCookie     | Boolean        | Should add cookie data (Default: true)           | true
 | triggers    | Array[String] | Error events will be observed. default `['error', 'unhandledrejection', 'rejectionhandled']` | `['my_custome_error1', 'other_error']`       |
 | callback    | Function      | callback function for errorItem                            | `function(e) { console.log("ErrorTracer Catch:" ,e); }`   |
 | apiURL      | String        | if assigned, errorItem will be passed                      | "https://zapier..."                                       |
