@@ -88,7 +88,8 @@ errorTrace1.init(function (errItem) {
 ### Parameters for init
 | Name        | Type          | description                                                | Example                                                   |
 |-------------|---------------|------------------------------------------------------------|-----------------------------------------------------------|
-| triggers     | Array[String] | Error events will be observed. default `['error', 'unhandledrejection', 'rejectionhandled']` | `['my_custome_error1', 'other_error']`       |
+| appName     | String        | Name of yout app           | "Test App"
+| triggers    | Array[String] | Error events will be observed. default `['error', 'unhandledrejection', 'rejectionhandled']` | `['my_custome_error1', 'other_error']`       |
 | callback    | Function      | callback function for errorItem                            | `function(e) { console.log("ErrorTracer Catch:" ,e); }`   |
 | apiURL      | String        | if assigned, errorItem will be passed                      | "https://zapier..."                                       |
 | sourceRange | Integer       | The range of source code will be captured at around error  | 30 (Above 15 lines and Below 15 lines)                    |
@@ -102,8 +103,7 @@ Below errorItem will be passed to callback/apiURL.
 
 | Name        | Type            | Description                                                         |
 |-------------|-----------------|---------------------------------------------------------------------|
-| errorId     | String          | Unique Error Id                                                     |
-| clientId    | String          | Unique Client Id                                                    |
+| appName     | String          | Name of your app                                                    |
 | error       | Object          | Original Error Event Object                                         |
 | location    | String          | Location which error occurred                                       |
 | _*source_   | Array[Object]   | Source code around of error. Object contains 'lineNo' and 'content' |
