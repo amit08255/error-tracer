@@ -1,12 +1,8 @@
 'use strict';
 
-const uuidv4 = require('uuid/v4')
-const uuidv5 = require('uuid/v5')
-
 const ErrorTracer = ((global) => {
   return class ErrorTracer {
     constructor() {
-      this.clientId = uuidv4()
       this.root = global
 
       this.init(arguments)
@@ -115,8 +111,6 @@ const ErrorTracer = ((global) => {
   async function _createErrorItem(error) {
     const errorTracer = this
     let item = {
-      errorId: uuidv5(JSON.stringify(error), errorTracer.clientId),
-      clientId: errorTracer.clientId,
       location: errorTracer.root.location.href,
       error,
       environment: {
