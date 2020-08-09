@@ -22,6 +22,7 @@ const ErrorTracer = ((global) => {
     }
 
     perpare() {
+      this.appName = "Unknown"
       this.triggers = ['error', 'unhandledrejection', 'rejectionhandled']
       this.callback = undefined
       this.apiURL = undefined
@@ -54,6 +55,7 @@ const ErrorTracer = ((global) => {
         this.apiURL = arg.apiURL
         this.sourceRange = arg.sourceRange
         this.detail = arg.detail
+        this.appName = arg.appName
       }
       
       else if (typeof arg === 'function') {
@@ -111,6 +113,7 @@ const ErrorTracer = ((global) => {
   async function _createErrorItem(error) {
     const errorTracer = this
     let item = {
+      appName: errorTracer.appName,
       location: errorTracer.root.location.href,
       error,
       environment: {
